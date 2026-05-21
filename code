@@ -1,0 +1,59 @@
+def add_setting(setting_dict, setting_tuple):
+    """Adds a new setting to the dictionary if it doesn't already exist."""
+    # Normalize inputs to lowercase to ensure case-insensitive uniqueness
+    key = setting_tuple[0].lower()
+    value = setting_tuple[1].lower()
+   
+    # Prevent overwriting an existing configuration
+    if key in setting_dict:
+        return f"Setting '{key}' already exists! Cannot add a new setting with this name."
+        
+    setting_dict[key] = value
+    return f"Setting '{key}' added with value '{value}' successfully!"
+
+
+def update_setting(setting_dict, setting_tuple):
+    """Updates an existing setting. Fails if the setting is missing."""
+    key = setting_tuple[0].lower()
+    value = setting_tuple[1].lower()
+    
+    # Only update if the configuration already exists
+    if key in setting_dict:
+        setting_dict[key] = value
+        return f"Setting '{key}' updated to '{value}' successfully!"
+        
+    return f"Setting '{key}' does not exist! Cannot update a non-existing setting."
+
+
+def delete_setting(setting_dict, key):
+    """Removes a setting from the dictionary by its key name."""
+    key = key.lower()
+   
+    if key in setting_dict:
+        del setting_dict[key]
+        return f"Setting '{key}' deleted successfully!"
+        
+    return "Setting not found!"
+
+
+def view_settings(setting_dict):
+    """Formats and displays all current settings nicely."""
+    if not setting_dict:
+        return "No settings available."
+        
+    result = "Current User Settings:\n"
+    # Loop through and capitalize keys for a cleaner presentation UI
+    for key, value in setting_dict.items():
+        result += f"{key.capitalize()}: {value}\n"
+    return result
+
+
+# --- Test Setup ---
+# Using lowercase here because the functions normalize all keys to lowercase
+test_settings = {
+    "theme": "dark"
+}
+
+# --- Test Cases ---
+print(add_setting(test_settings, ("THEme", "DARk")))
+print(add_setting({'theme': 'light'}, ('volume', 'high')))
